@@ -13,19 +13,19 @@ Data license: the Milan data and derived databases are under ODbL 1.0, see [DATA
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # fill LLM_BASE_URL and LLM_API_KEY (and LLM_MODEL) only for the optional LLM runs
+cp .env.example .env   # only needed to re-download the raw data (GREENRAN_GUESTBOOK_EMAIL)
 ```
 
-`.env` is git-ignored; never commit real keys. The offline pipeline and the tests run without any key.
-
-`GREENRAN_GUESTBOOK_EMAIL` is only needed to re-download the raw data (the processed subset is already in `data/`).
+`.env` is git-ignored; never commit real values. This project does not use any LLM or API key. The only environment variable the code reads is
+`GREENRAN_GUESTBOOK_EMAIL`, and it is only needed to re-download the raw data (the raw and processed subsets are already in `data/`). The tests and both
+experiments run without it.
 
 ## Run
 
 ```bash
 python -m pytest -q        # unit tests
 python run_all.py          # main experiment -> results/ (add --quick for a short run)
-python run_v6.py           # v6 conformal / matched-energy / rolling experiments -> results_v6/ (long on CPU)
+python run_v6.py           # v6 conformal / matched-energy / rolling experiments -> results_v6/ (recorded: about 2 h 40 min; --quick: a few minutes)
 streamlit run app.py       # dashboard demo
 ```
 
@@ -236,9 +236,31 @@ reporting the energy–QoS frontier with uncertainty, on public real data.
 
 ## v6 experiments
 
-`python run_v6.py` (about 10 min on CPU) runs the pre-registered protocol in `results_v6/protocol_v6.md`:
+`python run_v6.py` runs the pre-registered protocol in `results_v6/protocol_v6.md`:
 split conformal recalibration of the quantile forecasts on the validation window, a matched-energy
 comparison tuned on validation only, and a rolling day-by-day forecast/plan/apply loop. All outputs
 go to `results_v6/` (`results_v6.md` is the rendered report, `NOTES.md` the interpretation);
 `results/` from `run_all.py` is unchanged. The dashboard shows the rolling loop per site when
 `results_v6/` exists.
+
+**Runtime.** The recorded full run (3 seeds, 2000 bootstrap draws) took **9624.4 s, about 2 h 40 min**, on the recorded machine
+(Linux x86_64, Python 3.13.5; `results_v6/run_meta_v6.json`). It is single-process CPU work.
+
+**`--quick` mode.** `python run_v6.py --quick` runs the same pipeline on **one seed (seed 0) instead of three and with 300 bootstrap draws instead of
+2000**; the data, the parameter grids, the conformal step, the matched-energy selection and the rolling day-by-day loop are unchanged. It writes the same
+set of files, but the numbers are not comparable to the recorded results (one forecast seed, wider bootstrap noise). Measured by running it: **203.6 s
+(about 3.4 min)** in the script's own timer (207 s wall clock) on an 8-core x86_64 Linux box with Python 3.11.17; on a GitHub-hosted runner the
+end-to-end quick test took 283.6 s (the `quick-run` job about 5.5 min including setup). A full run was not re-timed on that box, so no speed-up factor is claimed.
+
+`run_v6.py` writes to `results_v6/` by default, which holds the committed results, so a quick check should go to a scratch directory:
+
+```bash
+python run_v6.py --quick --out-dir /tmp/greenran_quick
+```
+
+`python run_all.py --quick` is the analogous short mode for the main experiment (1 seed, 300 bootstrap draws, no power-model sensitivity); it took 65.4 s
+on the same box, versus 158.4 s recorded for the full run in `results/run_meta.json`. It overwrites `results/` and the results block above, so run it in a copy.
+
+**Tests and CI.** `tests/test_quick_mode.py` checks the `run_v6.py` command line and rebuilds `results_v6.md` from the committed CSVs in the default
+`pytest` run. Its end-to-end test of `run_v6.py --quick --out-dir <tmp>` takes about 4 minutes (225.7 s measured locally, 283.6 s on the CI runner) and is opt-in:
+`GREENRAN_QUICK_TEST=1 python -m pytest -q tests/test_quick_mode.py`. CI runs it as a separate job (`quick-run`) in parallel with the unit tests.
