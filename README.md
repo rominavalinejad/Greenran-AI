@@ -1,10 +1,12 @@
 # GreenRAN AI — AI in Telecom competition project
 
-[![tests](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+[![tests](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue) [![License](https://img.shields.io/github/license/rominavalinejad/Greenran-AI)](LICENSE) [![Data: ODbL 1.0](https://img.shields.io/badge/data-ODbL_1.0-blue)](DATA_LICENSE.md)
 
 GreenRAN AI is our entry to the **AI in Telecom** competition (Sustainable & Green Telecom track):
 uncertainty-aware cell sleeping that plans capacity-cell sleep with quantile/conformal day-ahead forecasts and CP-SAT,
 evaluated on real Telecom Italia Milan traffic.
+
+Data license: the Milan data and derived databases are under ODbL 1.0, see [DATA_LICENSE.md](DATA_LICENSE.md). The MIT [license](LICENSE) covers code only.
 
 ## Setup
 
