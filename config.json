@@ -1,0 +1,110 @@
+{
+  "data": {
+    "start": "2013-11-04",
+    "n_days": 28,
+    "block": {
+      "row0": 45,
+      "col0": 40,
+      "size": 20
+    },
+    "raw_dir": "data/raw",
+    "workers": 4,
+    "guestbook": {
+      "name": "Matin Shirazi",
+      "email": "<EMAIL_FROM_ENV>",
+      "institution": "Student team",
+      "position": "Student"
+    }
+  },
+  "experiment": {
+    "signal": "internet",
+    "site_block": 2,
+    "n_capacity_cells": 3,
+    "headroom": 1.1,
+    "split": {
+      "train": [
+        "2013-11-11",
+        "2013-11-24"
+      ],
+      "val": [
+        "2013-11-25",
+        "2013-11-27"
+      ],
+      "test": [
+        "2013-11-28",
+        "2013-12-01"
+      ]
+    },
+    "quantiles": [
+      0.5,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "point_margins": [
+      1.1,
+      1.2
+    ],
+    "thresholds": [
+      0.7,
+      0.8,
+      0.9
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_bootstrap": 2000,
+    "time_limit_s": 5.0,
+    "comparisons": [
+      [
+        "cpsat_q90",
+        "cpsat_point"
+      ],
+      [
+        "cpsat_q90",
+        "cpsat_point_x1.10"
+      ],
+      [
+        "cpsat_q90",
+        "threshold_80"
+      ],
+      [
+        "cpsat_q95",
+        "cpsat_point_x1.20"
+      ],
+      [
+        "cpsat_q80",
+        "cpsat_point_x1.10"
+      ]
+    ],
+    "sensitivity": [
+      {
+        "p0": 100
+      },
+      {
+        "p0": 160
+      },
+      {
+        "p_sleep": 40
+      },
+      {
+        "p_sleep": 100
+      },
+      {
+        "e_switch": 0
+      },
+      {
+        "e_switch": 60
+      }
+    ]
+  },
+  "power": {
+    "p0": 130.0,
+    "delta_p": 4.7,
+    "p_max": 20.0,
+    "p_sleep": 75.0,
+    "e_switch": 20.0
+  }
+}

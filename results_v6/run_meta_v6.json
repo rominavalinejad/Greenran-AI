@@ -1,0 +1,22 @@
+{
+  "git_commit": "3941c372ebeb9959addbb1596ebf3c90998ba6c2",
+  "git_dirty": false,
+  "command": "python run_v6.py",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_bootstrap": 2000,
+  "bootstrap": "site-day clusters pooled over seeds, rng seed 0",
+  "python": "3.13.5",
+  "platform": "Linux-6.12.94+-x86_64-with-glibc2.41",
+  "chosen_matched_params": {
+    "point": 1.1,
+    "rawq90": 1.0,
+    "confq90": 0.91,
+    "threshold": 0.88
+  },
+  "matched_target_val_saving_pct": 9.5374201783892,
+  "runtime_total_s": 9624.4
+}
