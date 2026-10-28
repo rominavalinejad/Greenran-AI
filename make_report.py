@@ -89,9 +89,9 @@ def plot_frontier(root: Path):
     fig.tight_layout(); fig.savefig(root / "results" / "frontier.png", dpi=130)
 
 
-def write_report_v6(root: Path) -> None:
-    """Render results_v6/results_v6.md from files in results_v6/."""
-    r = root / "results_v6"
+def write_report_v6(root: Path, out_dir: Path | None = None) -> None:
+    """Render results_v6.md from the files in out_dir (default: results_v6/ under root)."""
+    r = Path(out_dir) if out_dir else root / "results_v6"
     meta = json.load(open(r / "run_meta_v6.json"))
 
     def tab(df):

@@ -1,6 +1,6 @@
 """v6 experiments: conformal recalibration, matched-energy comparison, rolling day-by-day mode.
 
-Usage: python run_v6.py [--quick]
+Usage: python run_v6.py [--quick] [--out-dir DIR]
 Protocol: results_v6/protocol_v6.md (written before the run). Outputs go to results_v6/ only.
 """
 from __future__ import annotations
@@ -94,12 +94,16 @@ def paired(stats, pairs):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true", help="1 seed, 300 bootstrap draws")
+    ap.add_argument("--out-dir", default=None, help="write outputs here instead of results_v6/ (e.g. for a quick check)")
     a = ap.parse_args()
+    global OUT
+    if a.out_dir:
+        OUT = Path(a.out_dir).resolve()
     t0 = time.time()
     commit, dirty = git_state()
     cfg = json.load(open(ROOT / "config.json"))
     dcfg, ecfg = cfg["data"], cfg["experiment"]
-    OUT.mkdir(exist_ok=True)
+    OUT.mkdir(parents=True, exist_ok=True)
     days = day_list(dcfg["start"], dcfg["n_days"])
     hourly = build_hourly(days, ROOT / dcfg["raw_dir"])
     load = site_load(hourly, ecfg["site_block"], ecfg["signal"])
@@ -256,7 +260,7 @@ def main():
                 runtime_total_s=round(time.time() - t0, 1))
     json.dump(meta, open(OUT / "run_meta_v6.json", "w"), indent=2)
     from make_report import write_report_v6
-    write_report_v6(ROOT)
+    write_report_v6(ROOT, OUT)
     print("done", meta["runtime_total_s"], "s")
 
 

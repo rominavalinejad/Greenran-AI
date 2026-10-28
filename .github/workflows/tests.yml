@@ -7,6 +7,7 @@ on:
 jobs:
   pytest:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -19,3 +20,23 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Run tests
         run: python -m pytest -q
+
+  quick-run:
+    # Runs `python run_v6.py --quick` end to end (1 seed, 300 bootstrap draws; ~3.5 min on an 8-core box)
+    # into a temporary directory, as a separate job so it runs in parallel with the unit tests.
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Run run_v6.py --quick
+        env:
+          GREENRAN_QUICK_TEST: "1"
+        run: python -m pytest -q tests/test_quick_mode.py
