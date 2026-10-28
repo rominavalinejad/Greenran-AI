@@ -1,6 +1,6 @@
 # GreenRAN AI — AI in Telecom competition project
 
-[![tests](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue) ![AI in Telecom 2026](https://img.shields.io/badge/AI%20in%20Telecom%202026-competition%20prototype-blueviolet) ![track](https://img.shields.io/badge/track-Sustainable%20and%20Green%20Telecom-informational) ![status](https://img.shields.io/badge/status-research%20prototype-orange)
+[![tests](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/rominavalinejad/Greenran-AI/actions/workflows/tests.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
 
 GreenRAN AI is our entry to the **AI in Telecom** competition (Sustainable & Green Telecom track):
 uncertainty-aware cell sleeping that plans capacity-cell sleep with quantile/conformal day-ahead forecasts and CP-SAT,
